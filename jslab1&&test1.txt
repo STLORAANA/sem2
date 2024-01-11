@@ -1,0 +1,240 @@
+<html> <head>
+      <style>
+        table {
+          text-align:center;
+          margin-left: auto;
+          margin-right: auto;
+          font-family: 'Lucida Sans', 'Lucida Sans Regular',
+                       'Lucida Grande', 'Lucida Sans Unicode',
+                        Geneva, Verdana, sans-serif;
+        }
+        input, button {
+          padding: 12px 20px;           margin: 8px 0;
+          display: inline-block;        border: 2px solid #ccc;
+          border-radius: 4px;           box-sizing: border-box;
+          font-family: 'Lucida Sans', 'Lucida Sans Regular',
+                       'Lucida Grande', 'Lucida Sans Unicode',
+                        Geneva, Verdana, sans-serif;
+          align: center;
+         }
+      </style>
+   </head>
+   <body>
+      <div align="center">
+      <h1>Order Calculator</h1>  
+       
+      <button onclick="checkandgo()" id="addOrder">
+        Add Order</button>
+
+      <label for="Item">Item</label>
+      <input type="text" id="Item" size="3">
+       
+      <label for="Price">Price</label>
+      <input type="text" id="Price" size="3">
+
+      <label for="Quantity">Quantity</label>
+      <input type="text" id="Quantity" size="3"><br>          
+
+      <button onclick="updateQuantity()" id="updateQuantity">
+        Update Quantity</button>
+
+      <label for="LineNo">Line no</label>
+      <input type="text" id="LineNo" size="3">
+       
+      <label for="Quantity2">Quantity</label>
+      <input type="text" id="Quantity2" size="3""><br>
+     
+      <button onclick="deleteLastOrder()" id="deleteLastOrder">
+      Delete last order </button>   
+        
+      <button onclick="recomputeTotal()" id="recomputeTotal">
+      Recompute Total </button>    
+
+      <table border="2" id="theTable" style="width:70%">
+          <tr>
+              <th>Line</th>
+              <th>Item</th> <th>Price</th>
+              <th>Quantity</th><th>Total</th> </tr>  
+          <tr>
+              <td>1</td> <td>Coffee</td>
+              <td>5</td> <td>2</td><td>10</td>
+          </tr>
+          <tr>
+              <td>2</td> <td>Fries</td>
+              <td>4</td> <td>2</td><td>8</td>
+          </tr>
+          <tr>
+              <td>3</td> <td>Sandwich</td>
+              <td>10</td> <td>2</td><td>20</td>
+          </tr>
+          <tr>
+              <td>4</td> <td>Drink</td>
+              <td>3</td> <td>2</td><td>6</td>
+          </tr>
+      </table>
+     <p id="ERR" style="color:red;" >Error Message: </p>
+<script>
+  function checkandgo()
+    {
+      check();
+      if(c===0)
+      {
+        addOrder();
+      }
+    }
+  l=4;
+  c=0;
+   function check()
+     {
+       var textFieldi = document.getElementById("Item");
+       e1=textFieldi.value
+
+       var textFieldp = document.getElementById("Price");
+       e2=textFieldp.value
+
+         var textFieldq = document.getElementById("Quantity");
+        e3=textFieldq.value
+      if(e1==="")
+      {
+        let ERR = document.getElementById("ERR");
+        ERR.innerHTML="Error message : item is rejected"
+        c++
+         if(e2===""&&c===0)
+      {
+        let ERR = document.getElementById("ERR");
+        ERR.innerHTML="Error message : price is rejected"
+        c++
+         if(e2===""&&c===0)
+      {
+        let ERR = document.getElementById("ERR");
+        ERR.innerHTML="Error message : quantity is rejected" 
+        c++
+      }
+      }
+      }
+    
+     }
+  
+  {
+    function addOrder()
+    {
+      l++;
+      l0=document.createTextNode(l)
+      var textFieldi = document.getElementById("Item");
+      l1=document.createTextNode(textFieldi.value)
+      
+
+      
+      var textFieldp = document.getElementById("Price");
+      l2=document.createTextNode(textFieldp.value)
+      x=parseFloat(textFieldp.value)
+      
+      
+      var textFieldq = document.getElementById("Quantity");
+      l3=document.createTextNode(textFieldq.value)
+      y=parseFloat(textFieldq.value)
+     
+
+      
+      var textFieldt = (x*y);
+      l4=document.createTextNode(textFieldt)
+
+
+       l0toadd=document.createElement("td")
+      l1toadd=document.createElement("td")
+      l2toadd=document.createElement("td")
+      l3toadd=document.createElement("td")
+      l4toadd=document.createElement("td")
+
+
+      l0toadd.appendChild(l0)
+      l1toadd.appendChild(l1)
+      l2toadd.appendChild(l2)
+      l3toadd.appendChild(l3)
+      l4toadd.appendChild(l4)
+
+
+
+      l1torow=document.createElement("tr")
+      l1torow.appendChild(l0toadd)
+      l1torow.appendChild(l1toadd)
+       l1torow.appendChild(l2toadd)
+       l1torow.appendChild(l3toadd)
+       l1torow.appendChild(l4toadd)
+
+
+       T = document.getElementById("theTable")
+      T.appendChild(l1torow)
+     
+    }
+
+  }
+  function deleteLastOrder() {
+  var table = document.getElementById("theTable");
+  var rc = table.rows.length;
+
+  if (rc > 1) { 
+    table.deleteRow(rc - 1); 
+  }
+    else{
+       ERR.innerHTML="Error message : no more orders to remove" 
+      
+    }
+}
+
+
+function updateQuantity() {
+    var lineNo = parseInt(document.getElementById("LineNo").value);
+    var table = document.getElementById("theTable");
+    var rowCount = table.rows.length;
+
+    if (isNaN(lineNo) || lineNo < 1 || lineNo >= rowCount) {
+         ERR.innerHTML="Error message : line no is rejected" 
+      
+    }
+
+    var n = parseInt(document.getElementById("Quantity2").value);
+
+    if (isNaN(n) || n < 0 ) {
+       ERR.innerHTML="Error message :  quantity is rejected ."
+    }
+
+    
+    var row = table.rows[lineNo];
+    var pc = row.cells[2];
+    var qc = row.cells[3];
+   
+
+    var price = parseFloat(pc.textContent);
+    qc.textContent = n;
+}
+  function recomputeTotal() {
+    var table = document.getElementById("theTable");
+    var rows = table.rows;
+    var gt = 0;
+    if(rows.length===1)
+    {
+      ERR.innerHTML="Error message : Invalid input for data to be recomputing"
+    }
+      
+    for (var i = 1; i < rows.length; i++) {
+        var row = rows[i];
+        var pc = row.cells[2]; 
+        var qc = row.cells[3];
+        var tc= row.cells[4]; 
+      var p = parseFloat(pc.textContent);
+        var q = parseInt(qc.textContent);
+      var ot = p* q;    
+        tc.textContent = ot;
+        gt =gt+ot;
+    }
+    var grandTotalCell = document.getElementById("grandTotal");
+    grandTotalCell.textContent = grandTotal;
+}
+
+
+  
+ 
+
+</script>
+  </body> </html>
