@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>anmol courses</title>
+    <style>
+         .yellow-background {
+            background-color: yellow;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Tutoring Course(s)</h2>
+
+<div>
+    <label for="name" class="form-label">Name: </label>
+    <input type="text" id="name" onblur="validateName()" />
+    
+</div><br>
+  
+<div>
+    <label for="stdID" class="form-label">Id no:</label>
+    <input type="text" id="stdID" onblur="validateId()" />
+    
+</div><br>
+
+<label> What courses are you interested in?</label><br>
+<input type="checkbox" name="item" id="item_HTML" value="HTML"/>
+<label for="item_HTML">HTML</label><br>
+<input type="checkbox" name="item" id="item_CSS" value="CSS"/>
+<label for="item_CSS">CSS</label><br>
+<input type="checkbox" name="item" id="item_JavaScript" value="JavaScript" />
+<label for="item_JavaScript">JavaScript</label><br>
+<input type="checkbox" name="item" id="item_PHP" value="PHP"/>
+<label for="item_PHP">PHP</label>
+<br> <br>
+<div>  
+    <label> Select a slot</label><br>
+    <input type="radio" value="05:00" name="slot" id="five" checked/>
+    <label for="five" >05:00 - 06:00</label><br>
+    <input type="radio" value="06:00" name="slot" id="six" />
+    <label for="six">06:00 - 07:00</label><br>
+    <input type="radio" value="07:00" name="slot" id="seven" />
+    <label for="seven">07:00 - 08:00</label><br>
+    <input type="radio" value="08:00" name="slot" id="eight" />
+    <label for="eight">08:00 - 09:00</label>
+</div><br>
+<div>
+    <button onclick="Submit()" id="submit" disabled> Submit </button><br>
+    <label id="message"> . . .</label>
+</div>  
+
+<script>
+    function validateName() {
+        const nin = document.getElementById("name");
+        const nrn = nin.value.trim();
+        const nyt = document.getElementById("message");
+      
+
+        if (nrn === "") {
+            nyt.textContent = "Error: Name is empty.";
+            nin.classList.add("error");
+            document.getElementById("submit").disabled = true;
+           const textField = document.getElementById("name");
+            textField.classList.add("yellow-background");
+        } else if (!/\s/.test(nrn)) {
+            nyt.textContent = "Error: First and last name are required.";
+            nin.classList.add("error");
+            document.getElementById("submit").disabled = true;
+           const textField = document.getElementById("name");
+            textField.classList.add("yellow-background");
+        } else {
+            nyt.textContent = "";
+            nin.classList.remove("error");
+            document.getElementById("submit").disabled = false; const textField = document.getElementById("name");
+            textField.classList.remove("yellow-background");
+        }
+    }
+
+    function validateId() {
+        const dpt = document.getElementById("stdID");
+        const dfg = dpt.value.trim();
+        const sdp = document.getElementById("message");
+
+        if (dfg === "") {
+            sdp.textContent = "Error: Id number is empty.";
+            dpt.classList.add("error");
+            document.getElementById("submit").disabled = true;
+           const textField = document.getElementById("stdID");
+            textField.classList.add("yellow-background");
+          
+        } else  if (!/^\d/.test(dfg) ) {
+            sdp.textContent = "Error: Id number must start with numbers .";
+            dpt.classList.add("error");
+            document.getElementById("submit").disabled = true;
+           const textField = document.getElementById("stdID");
+            textField.classList.add("yellow-background");
+        }
+        else if(dfg.length !== 5)
+        {
+ sdp.textContent = "Error: Id number must  have  5 characters.";
+            dpt.classList.add("error");
+            document.getElementById("submit").disabled = true;
+            const textField = document.getElementById("stdID");
+            textField.classList.add("yellow-background");
+
+        }
+ else {
+            sdp.textContent = "";
+            dpt.classList.remove("error");
+            document.getElementById("submit").disabled = false;  const textField = document.getElementById("stdID");
+            textField.classList.remove("yellow-background");
+        }
+    }
+
+    function Submit() {
+         sc = document.querySelectorAll('input[name="item"]:checked');
+         sa = document.querySelector('input[name="slot"]:checked');
+
+      
+        xqa = document.getElementById("name").value.trim();
+        ypp = document.getElementById("stdID").value.trim();
+         n11 = Array.from(sc).map(course => course.value);
+         slotTime = sa.value;
+
+     message = `Tutoring for: ${xqa}\n \n\n       stdID: (${ypp})          \nCourse(s) are: ${n11.join(", ")}\nat: ${slotTime}`;
+
+        document.getElementById("message").textContent = message;
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Country Information</title>
+</head>
+<body>
+  <h2>Display</h2>
+
+  
+  <button onClick="AllNames()">Countries' names in French</button>
+  <p id="namesInFrench"></p>
+
+  
+  <button onClick="grcb()">Countries in this Region:</button>
+  <input id="regionInput" type="text">
+  <p id="countriesInRegion"></p>
+
+
+  <button onClick="gbc()">Countries' borders for this country:</button>
+  <input id="countryInput" type="text">
+  <p id="countryBorders"></p>
+
+ 
+  <button onClick="lonltg()">LAT or LNG of this country:</button>
+  <input id="latLngInput" type="text">
+  <input type="radio" name="latLngType" id="latitude" checked> Latitude
+  <input type="radio" name="latLngType" id="longitude"> Longitude
+  <p id="latLngValue"></p>
+
+  
+  <button onClick="avp()">Average Population of all countries</button>
+  <p id="averagePopulation"></p><br><br>
+
+  <p id="ID1"> . . . . . . . </p>
+  <p id="ID2"></p>
+  <p id="ID3"></p>
+  <p id="ID4"></p>
+  <p id="ID5"></p>
+
+  <script>
+    
+    function AllNames() {
+  fetch("https://restcountries.com/v2/all")
+    .then(response => response.json())
+    .then(data => {
+       nameinfrench = data.map(country => country.translations.fr);
+     nameinp = nameinfrench.join("<br>");
+      document.getElementById("ID1").innerHTML = "All names (total = "+nameinfrench.length+"):<br>"
+      document.getElementById("ID2").innerHTML = "<hr>"
+      document.getElementById("ID3").innerHTML = nameinp
+      document.getElementById("ID4").innerHTML = "....."
+      
+      
+    });
+}
+
+
+   
+    function grcb() {
+      region = document.getElementById("regionInput").value;
+      fetch("https://restcountries.com/v2/region/" + region)
+        .then(response => response.json())
+        .then(data => {
+         
+           cn = data.map(country => country.name);
+          nmn=cn.join("<br>")
+          document.getElementById("ID1").innerHTML = "Countries in " + region + ":"
+           document.getElementById("ID2").innerHTML = "<hr>"
+           document.getElementById("ID3").innerHTML = nmn
+           document.getElementById("ID4").innerHTML = "<hr>"
+          document.getElementById("ID5").innerHTML = "total = "+cn.length
+          
+          
+          
+          
+        });
+    }
+
+  
+    function gbc() {
+       name = document.getElementById("countryInput").value;
+      fetch("https://restcountries.com/v2/name/" + name)
+        .then(response => response.json())
+        .then(data => {
+         borders = data[0].borders;
+          nams=borders.join("<br>")
+          document.getElementById("ID1").innerHTML = "Borders for " + name +"<br>"
+           document.getElementById("ID2").innerHTML = "<hr>"
+           document.getElementById("ID3").innerHTML = nams+"<br>"+"<hr>"
+           document.getElementById("ID4").innerHTML = "total = "+borders.length
+          
+          
+          
+          
+        });
+    }
+
+    
+
+  
+ function lonltg() {
+            name = document.getElementById('latLngInput').value;
+             il = document.getElementById('latitude').checked;
+   
+
+            fetch(`https://restcountries.com/v2/name/${name}`)
+                .then(response => response.json())
+                .then(data => {
+                    const c = data[0];
+                    const cxv = il ? c.latlng[0] : c.latlng[1];
+                   document.getElementById("ID1").innerHTML = "For "+name
+                    document.getElementById("ID2").innerHTML = "<hr>"
+                    document.getElementById('ID3').textContent = il ? `Latitude: ${cxv}` : `Longitude: ${cxv}`;
+                });
+        }
+
+
+
+   
+    function avp() {
+      fetch("https://restcountries.com/v2/all")
+        .then(response => response.json())
+        .then(data => {
+         avp = data.map(country => country.population);
+           tp = avp.reduce((acc, val) => acc + val, 0);
+            avvp = tp / avp.length;
+          document.getElementById("ID1").textContent = "Average Population: " + avvp;
+          document.getElementById("ID2").innerHTML = "<br>"+"<hr>"
+        });
+    }
+  </script>
+</body>
+</html>
